@@ -36,6 +36,7 @@ public class GoodsControllerImpl extends BaseController   implements GoodsContro
 		Map goodsMap=goodsService.goodsDetail(goods_id);
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("goodsMap", goodsMap);
+		
 		GoodsVO goodsVO=(GoodsVO)goodsMap.get("goodsVO");
 		addGoodsInQuick(goods_id,goodsVO,session);
 		return mav;
@@ -78,8 +79,8 @@ public class GoodsControllerImpl extends BaseController   implements GoodsContro
 		List<GoodsVO> quickGoodsList; //최근 본 상품 저장 ArrayList
 		quickGoodsList=(ArrayList<GoodsVO>)session.getAttribute("quickGoodsList");
 		
-		if(quickGoodsList!=null){
-			if(quickGoodsList.size() < 4){ //미리본 상품 리스트에 상품개수가 세개 이하인 경우
+		if(quickGoodsList!=null){ //상품상세보기를 클릭했을 때,
+			if(quickGoodsList.size() < 9){ //미리본 상품 리스트에 상품개수가 세개 이하인 경우
 				for(int i=0; i<quickGoodsList.size();i++){
 					GoodsVO _goodsBean=(GoodsVO)quickGoodsList.get(i);
 					if(goods_id.equals(Integer.toString(_goodsBean.getGoods_id())) ){
@@ -88,7 +89,7 @@ public class GoodsControllerImpl extends BaseController   implements GoodsContro
 					}
 				}
 				if(already_existed==false){
-					quickGoodsList.add(goodsVO);
+					quickGoodsList.add(0,goodsVO);
 				}
 			}
 			
